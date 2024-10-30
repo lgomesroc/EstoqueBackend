@@ -5,10 +5,11 @@ export const getAllProducts = async () => {
   return rows;
 };
 
-export const createProduct = async (product: { nome: string; descricao: string; valor: number; imagem: string; quantidade: number }) => {
-  const [result] = await pool.query('INSERT INTO produtos (nome, descricao, valor, imagem, quantidade) VALUES (?, ?, ?, ?, ?)', 
-  [product.nome, product.descricao, product.valor, product.imagem, product.quantidade]);
-  
-  // Acessando insertId corretamente
-  return (result as any).insertId; // Use 'as any' para evitar erros de tipo
+export const createProduct = async (product: any) => {
+  const { nome, descricao, imagem, valor, quantidade } = product;
+  const [result] = await pool.execute(
+    'INSERT INTO produtos (nome, descricao, imagem, valor, quantidade) VALUES (?, ?, ?, ?, ?)',
+    [nome, descricao, imagem, valor, quantidade]
+  );
+  return (result as any).insertId;
 };

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import * as productModel from '../models/productModel';
 
-export const getProducts = async (req: Request, res: Response) => {
+export const getAllProducts = async (req: Request, res: Response) => {
   try {
     const products = await productModel.getAllProducts();
     res.status(200).json(products);
