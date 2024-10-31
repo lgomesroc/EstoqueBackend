@@ -13,21 +13,27 @@ A estrutura das pastas do projeto é organizada da seguinte maneira:
 
 sistema-estoque/
 │
-├── backend/                # Pasta principal do backend
-│   ├── config/             # Configurações do banco de dados
-│   │   └── db.ts          # Configuração da conexão com o MySQL
-│   ├── controllers/        # Lógica dos controladores (API)
-│   │   ├── productController.ts  # Controlador de produtos
-│   │   └── userController.ts     # Controlador de usuários (futuro)
-│   ├── routes/             # Definição das rotas da API
-│   │   └── productRoutes.ts      # Rotas de produtos
-│   ├── models/             # Modelos de dados (futuro)
-│   ├── middlewares/        # Middlewares (futuro)
-│   ├── app.ts              # Configuração do servidor e rotas
-│   └── package.json        # Dependências do projeto
-│
-├── estoque_db.sql          # Backup do banco de dados
-└── README.md               # Documentação do projeto
+├── backend/                               # Pasta principal do backend
+│   ├── src
+│   │   ├── config/                        # Configurações do banco de dados
+│   │   │   └── db.ts                      # Configuração da conexão com o MySQL
+│   │   ├── controllers/                   # Lógica dos controladores (API)
+│   │   │   ├── productController.ts       # Controlador de produtos
+│   │   │   └── userController.ts          # Controlador de usuários
+│   │   ├── routes/                        # Definição das rotas da API
+│   │   │   ├── productRoute.ts            # Rotas de produtos
+│   │   │   └── userRoute.ts               # Rotas de usuários
+│   │   ├── models/                        # Modelos de dados
+│   │   │   ├── productModel.ts            # Modelo de produtos
+│   │   │   └── userModel.ts               # Modelo de usuários
+│   │   ├── middlewares/                   # Middlewares (futuro)
+│   │   ├── app.ts                         # Configuração de rotas
+│   │   └── server.ts                      # Configuração do servidor
+├── estoque_db.sql                         # Backup do banco de dados
+├── README.md                              # Documentação do projeto
+├── .gitignore
+├── LICENSE
+└── package.json                           # Dependências do projeto
 ```
 ## 3. Histórico de Desenvolvimento
 ### 3.1. Configuração do Ambiente
@@ -69,6 +75,9 @@ CREATE TABLE produtos (
     Endpoints Implementados:
         'GET /products': Lista todos os produtos.
         'POST /products': Cria um novo produto.
+        'GET /users': Lista todos os usuários.
+        'POST /users': Cria um novo usuário.
+        'DELETE /users/:id': Exclui um usuário pelo ID.
 
 ### 3.4. Conexão com o Banco de Dados
 
@@ -81,18 +90,27 @@ import mysql from 'mysql2/promise';
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
-  password: 'sua_senha',
+  password: '5577azcD@#',
   database: 'estoque_db',
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
 });
 
+pool.getConnection()
+  .then(connection => {
+    console.log('Conexão com o banco de dados estabelecida com sucesso!');
+    connection.release();
+  })
+  .catch(err => {
+    console.error('Erro ao conectar ao banco de dados:', err);
+  });
+
 export default pool;
 ```
 ### 3.5. Testes da API
 
-    Testes com Postman: A API foi testada utilizando o Postman, onde as requisições POST e GET retornaram os resultados esperados. O status 201 (Created) foi retornado ao criar novos produtos e o status 200 (OK) ao listar produtos.
+    Testes com Postman: A API foi testada utilizando o Postman, onde as requisições __POST__, __GET__ e __DELETE__ retornaram os resultados esperados. O status 201 (Created) foi retornado __ao criar novos produtos e usuários__, o status 200 (OK) ao __listar produtos e usuários__, e o status 200 (OK) ao __excluir um usuário__.
 
 ### 3.6. Exportação do Banco de Dados
 
@@ -105,3 +123,12 @@ mysqldump -u root -p estoque_db > ~/Projects/sistema-estoque/backend/estoque_db.
 ## 4. Considerações Finais
 
 O projeto está em andamento e novas funcionalidades serão implementadas, como o gerenciamento de usuários, autenticação e controle de acesso. A estrutura do projeto foi planejada para ser escalável e de fácil manutenção.
+
+# Atualizações (30/10 e 31/10)
+Implementação das funcionalidades de criação e exclusão de usuários e produtos.
+
+Utilização do bcrypt para criptografia de senhas.
+
+Criação das tabelas usuarios e produtos no banco de dados.
+
+Testes das APIs utilizando Postman.
