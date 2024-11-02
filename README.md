@@ -1,5 +1,7 @@
 # Documentação do Sistema de Estoque
 
+![Sistema de Estoque](f2d52f38-2793-427a-8321-df70e06dab17.webp)
+
 ## 1. Visão Geral
 
 Este projeto é um sistema de gerenciamento de estoque desenvolvido com TypeScript, Node.js e MySQL. O sistema permite o gerenciamento de produtos e usuários, com funcionalidades para criação e listagem de itens.
